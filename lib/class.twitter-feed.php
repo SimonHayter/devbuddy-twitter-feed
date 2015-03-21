@@ -1,14 +1,15 @@
 <?php
 
 /**
- * A class for rendering the Twitter feed
+ * A class for rendering and managing an instance of
+ * a Twitter feed
  *
  * This is the class to call at the top when scripting
  * the template tag. Be sure to offer a $feed_config
  * array as the parameter to properly initialise the
  * object instance.
  *
- * @version 1.2.0
+ * @version 1.3.0
  */
 if ( ! class_exists( 'DB_Twitter_Feed' ) ) {
 
@@ -16,7 +17,7 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 
 	/**
 	 * @var array A holding place for parsed tweet data
-	 * @since 1.0.3
+	 * @since 1.1.0
 	 */
 	protected $tweet;
 
@@ -43,6 +44,18 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 	 * @since 1.0.0
 	 */
 	public $intent = 'https://twitter.com/intent/';
+
+	/**
+	 * @var string Twitter User endpoint URL
+	 * @since 1.3.0
+	 */
+	protected $user_endpoint = 'https://api.twitter.com/1.1/statuses/user_timeline/';
+
+	/**
+	 * @var string Twtter Search endpoint URL
+	 * @since 1.3.0
+	 */
+	protected $search_endpoint = 'https://api.twitter.com/1.1/search/tweets.json';
 
 	/**
 	 * @var array If there are any errors after a check is made for such, they will be stored here
@@ -84,7 +97,7 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 	 * @return void
 	 * @since  1.0.4
 	 */
-	private function initialise_the_feed( $feed_config ) {
+	private function initialise_the_feed( $feed_config = null ) {
 
 		/* Populate the $options property with the config options submitted
 		   by the user. Should any of the options not be set, fall back on
@@ -224,7 +237,56 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 
 
 	/**
-	 * Based on a limited number of config options, retrieve the raw feed (JSON)
+	 * Perform a retrieval of feed data based on the options given
+	 *
+	 * @access public
+	 * @since  1.3.0
+	 * @return bool|mixed The raw data if successful, FALSE otherwise
+	 *
+	 * @param array $options Only `get_parameters` and `endpoint_url` are supported
+	 */
+	public function perform_retrieval( $options = array() ) {
+		// We must query parameter provided
+		if ( empty( $options['get_parameters'] ) || ! is_array( $options['get_parameters'] ) ) {
+			return FALSE;
+		} else {
+			$get_field = '?' . http_build_query( $options['get_parameters'] );
+		}
+
+		// We must also have an endpoint URL
+		if ( empty( $options['endpoint_url'] ) ) {
+			return FALSE;
+		} else {
+			$endpoint = $options['endpoint_url'];
+		}
+
+
+		// Set request method to GET
+		$request_method = 'GET';
+
+		// Send data request
+		$feed_data = $this->twitter->setGetfield( $get_field )
+			->buildOauth( $endpoint, $request_method )
+			->performRequest();
+
+		// Decode the data
+		$feed_data = json_decode( $feed_data );
+
+		// Search feed data comes with an extra wrapper object around the tweet items
+		if ( $this->options['feed_type'] === 'search' && ( isset( $feed_data->statuses ) && is_array(
+					$feed_data->statuses ) ) ) {
+			$feed_data = $feed_data->statuses;
+		}
+
+		return $feed_data;
+	}
+
+
+	/**
+	 * Performs a full retrieval of data, iteratively retrieving more
+	 * if the item count is lower the count option provided.
+	 *
+	 * This method also checks for errors
 	 *
 	 * @access public
 	 * @return bool TRUE on success, FALSE otherwise
@@ -234,40 +296,38 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 
 		// Skip this method if there are errors registered
 		if ( $this->has_errors() ) {
-			return false;
+			return FALSE;
 		}
 
+		$retrieval_params = array(
+			'get_parameters' => array()
+		);
+
+		// Set retrieval parameters
 		switch ( $this->options['feed_type'] ) {
 			default:
 			case 'user_timeline':
-				$url       = 'https://api.twitter.com/1.1/statuses/user_timeline/'.$this->options['user'].'.json';
-				$get_field = '?screen_name='.$this->options['user'];
+				$retrieval_params['endpoint_url'] = $this->user_endpoint . $this->options['user'] . '.json';
+				$retrieval_params['get_parameters']['screen_name'] = $this->options['user'];
 
 				if ( $this->options['exclude_replies'] === 'yes' ) {
-					$get_field .= '&exclude_replies=true';
+					$retrieval_params['get_parameters']['exclude_replies'] = 'true';
 				}
 			break;
 
 			case 'search':
-				$url       = 'https://api.twitter.com/1.1/search/tweets.json';
-				$get_field = '?q='.urlencode($this->options['search_term']).'&result_type=recent&since_id=1';
+				$retrieval_params['endpoint_url'] = $this->search_endpoint;
+				$retrieval_params['get_parameters']['q'] = urlencode( $this->options['search_term'] );
+				$retrieval_params['get_parameters']['result_type'] = 'recent';
 			break;
 		}
 
-		$get_field      .= '&count='.$this->options['count'];
-		$request_method  = 'GET';
+		// Retrieve the data
+		$this->feed_data = $this->perform_retrieval( $retrieval_params );
 
-		// Send data request
-		$this->feed_data = $this->twitter->setGetfield( $get_field )
-		                                 ->buildOauth( $url, $request_method )
-		                                 ->performRequest();
-
-		// Decode the data
-		$this->feed_data = json_decode( $this->feed_data );
-
-		// Search feed data comes with an extra wrapper object around the tweet items
-		if ( $this->options['feed_type'] === 'search' && ( isset( $this->feed_data->statuses ) && is_array( $this->feed_data->statuses ) ) ) {
-			$this->feed_data = $this->feed_data->statuses;
+		// Retrieval was unsuccessful
+		if ( $this->feed_data === FALSE ) {
+			return FALSE;
 		}
 
 		// Register any errors. Return false where errors exist
@@ -277,11 +337,79 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 			}
 
 			return FALSE;
+
 		}
 
 
+		// Grab the end tweet ID
+		$feed_end_tweet = end( $this->feed_data );
+		$cont_id = $feed_end_tweet->id_str;
+
+		// Create an array of nicely parsed feed data
+		foreach ( $this->feed_data as $tweet ) {
+			$parsed_tweet = $this->parse_tweet_data( $tweet );
+			if ( is_array( $parsed_tweet ) ) {
+				$this->parsed_feed_data[] = $parsed_tweet;
+				$this->item_count++;
+			}
+		}
+
+		/* Attempt to honour the given tweet count where settings
+		   result in a returned data set that falls short */
+		$iteration = 0;
+		while ( $this->item_count < (int) $this->options['count'] ) {
+			$iteration++;
+
+			if ( $iteration <= 3 ) {
+				// Figure out how many tweets left to get
+				$retrieval_count = $this->options['count'] - $this->item_count;
+
+				// Update retrieval parameters
+				$retrieval_params['get_parameters']['count']    = $retrieval_count;
+				$retrieval_params['get_parameters']['since_id'] = $cont_id;
+
+				// Retrieve more data
+				$more_data = $this->perform_retrieval($retrieval_params);
+
+				if ( $more_data === false ) {
+					break;
+				}
+
+				// Check for errors
+				/* If we got to this point, fundamental functionality is fine
+				   so we don't punish rendering the feed because of errors at
+				   this point. We simply cease trying to fill tweet gaps */
+				if ( is_object( $more_data ) && is_array( $more_data->errors ) ) {
+					/* But we register errors anyway, just in case it does cause
+					   undesired behaviour */
+					foreach ( $more_data->errors as $error ) {
+						$this->register_feed_error( $error->message, $error->code );
+					}
+
+					break;
+				}
+
+				// Update the raw feed data property
+				$this->feed_data = $this->feed_data + $more_data;
+
+				// Grab the end tweet ID
+				$feed_end_tweet = end( $more_data );
+				$cont_id = $feed_end_tweet->id_str;
+
+				foreach ( $more_data as $tweet ) {
+					$parsed_tweet = $this->parse_tweet_data( $tweet );
+					if ( is_array( $parsed_tweet ) ) {
+						$this->parsed_feed_data[] = $parsed_tweet;
+						$this->item_count++;
+					}
+				}
+			} else {
+				break;
+			}
+		}
+
 		// All is well
-		return true;
+		return TRUE;
 
 	}
 
@@ -374,12 +502,24 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 	 * populated $feed_data.
 	 *
 	 * @access public
-	 * @return array Tweet data from the tweet item given
+	 * @return mixed Tweet data from the tweet item given, FALSE if invalid data given
 	 * @since  1.0.2
 	 */
 	public function parse_tweet_data( $t ) {
 
+		// Check that data given hasn't already been parsed
+		if ( is_array( $t ) && ! empty( $t['is_parsed'] ) ) {
+			return $t;
+		}
+
+		// Check that data given is valid tweet
+		if ( ! is_object( $t ) || ( is_object( $t ) && empty( $t->id_str ) ) ) {
+			return false;
+		}
+
 		$tweet = array();
+
+		$tweet['is_parsed'] = true;
 
 		$tweet['is_retweet'] = ( isset( $t->retweeted_status ) ) ? TRUE : FALSE;
 
@@ -557,7 +697,7 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 
 		// If all is well, we get on with it
 		} else {
-			foreach ( $this->feed_data as $tweet ) {
+			foreach ( $this->parsed_feed_data as $tweet ) {
 				$this->render_tweet_html( $tweet );
 			}
 

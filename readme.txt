@@ -65,7 +65,7 @@ Both accept the same arguments/attributes which are all listed and explained bel
 > The number of tweets you want displayed. The maximum Twitter allows per request is at 200. Page speed can be substantially affected when loading multiple feeds on one page.
 
 **exclude_replies (string)**: `yes` or `no`; *default*: `no`
-> The option of whether or not to keep replies out of the feed displayed. Go with `no` to keep replies in, `yes` to take them out. NOTE: Twitter removes replies only after it retrieves the number of tweets you request. Thus if you choose 10, and out of that 10 6 are replies, only 4 tweets will be displayed.
+> The option of whether or not to keep replies out of the feed displayed. Go with `no` to keep replies in, `yes` to take them out. NOTE: It's strongly advised that the cache is activated when this setting is on.
 
 **show_images (string)**: `yes` or `no`; *default*: `no`
 > The option of whether or not to display embedded images within the rendered feed. The caching of images is left to the browser to handle.
