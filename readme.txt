@@ -3,8 +3,8 @@ Contributors: EjiOsigwe
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XMXJEVPQ35YMJ
 Tags: Twitter, Twitter Feed, Twitter 1.1, Twitter API, Twitter Shortcode, Twitter tweet, tweets, Twitter, Twitter connect, Twitter share, Twitter share button, DevBuddy
 Requires at least: 3.1.0
-Tested up to: 4.1.0
-Stable tag: 3.2.0
+Tested up to: 4.1.1
+Stable tag: 3.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,9 @@ Both accept the same arguments/attributes which are all listed and explained bel
 
 == Changelog ==
 
+= 3.3.0 =
+* The plugin has had Internationalization implemented, no translations are currently bundled with the plugin
+
 = 3.2.0 =
 * Feeds now have the facility to display embedded image media along with the tweet. Simply update the option on the settings page, or add `show_images="yes"` to your shortcode, or add `'show_images' => 'yes'` to the options array of your template tag
 * Feeds have the option of loading media content over HTTPS. Simply update the option on the settings page, or add `https="yes"` to your shortcode, or add `'https' => 'yes'` to the options array of your template tag
@@ -188,6 +191,9 @@ Amendment of plugin description and settings page to include important and usefu
 First release.
 
 == Upgrade Notice ==
+
+= 3.3.0 =
+* The plugin has had Internationalization implemented, no translations are currently bundled with the plugin
 
 = 3.2.0 =
 * Feeds now have the facility to display embedded image media along with the tweet. Simply update the option on the settings page, or add `show_images="yes"` to your shortcode, or add `'show_images' => 'yes'` to the options array of your template tag
