@@ -678,7 +678,7 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 		   bad config) then we get the errors and display them
 		   to the user */
 		if ( $this->has_errors() ) {
-			$this->output .= '<p>Twitter has returned errors:</p>';
+			$this->output .= '<p>' . __( 'Twitter has returned errors:', 'devbuddy-twitter-feed' ) . '</p>';
 			$this->output .= '<ul>';
 
 			foreach ( $this->errors as $error ) {
@@ -686,22 +686,46 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 			}
 
 			$this->output .= '</ul>';
-			$this->output .= '<p>More information on errors that have codes <a href="https://dev.twitter.com/docs/error-codes-responses" target="_blank" title="Twitter API Error Codes and Responses">here</a>.</p>';
+
+			$this->output .= '<p>';
+			$this->output .= sprintf(
+				__( 'More information on errors that have codes %shere%s.', 'devbuddy-twitter-feed' ),
+				sprintf(
+					'<a href="https://dev.twitter.com/docs/error-codes-responses" target="_blank" title="%s">',
+					esc_attr__( 'Twitter API Error Codes and Responses', 'devbuddy-twitter-feed' )
+				),
+				'</a>'
+			);
+			$this->output .= '</p>';
 
 		/* If the result set returned by the request is
 		   empty we let the user know */
 		} elseif ( $this->is_empty() ) {
 			switch ( $this->options['feed_type'] ) {
 				case 'user_timeline':
-					$this->output .= '<p>Looks like your timeline is completely empty!<br />Why don&rsquo;t you <a href="' . $this->tw . '" target="_blank">login to Twitter</a> and post a tweet or two.</p>';
+					$this->output .= '<p>' . __( 'Looks like this timeline is completely empty.', 'devbuddy-twitter-feed' ) . '</p>';
 				break;
 
 				case 'search':
-					$this->output .= '<p>Your search for <strong>' . $this->options['search_term'] . '</strong> doesn&rsquo;t have any recent results. <a href="' . $this->search . urlencode($this->options['search_term']) . '" title="Search Twitter for ' . $this->options['search_term'] . '" target="_blank">Perform a full search on Twitter</a> to see all results.</p>';
+					$this->output .= '<p>';
+					$this->output .= sprintf(
+						__( 'Your search for %s doesn&rsquo;t have any recent results. %sPerform a full search on Twitter%s to see all results.', 'devbuddy-twitter-feed' ),
+						'<strong>' . $this->options['search_term'] . '</strong>',
+						sprintf(
+							' <a href="%s" title="%s" target="_blank">',
+							$this->search . urlencode($this->options['search_term']),
+							sprintf(
+								esc_attr__( 'Search Twitter for %s', 'devbuddy-twitter-feed' ),
+								$this->options['search_term']
+							)
+						),
+						'</a>'
+					);
+					$this->output .= '</p>';
 				break;
 
 				default:
-					$this->output .= '<p>There are no tweets to display.</p>';
+					$this->output .= '<p>' . __( 'There are no tweets to display.', 'devbuddy-twitter-feed' ) . '</p>';
 				break;
 			}
 
@@ -806,9 +830,13 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 
 		if ( $hashtags !== NULL ) {
 			foreach ( $hashtags as $hashtag ) {
+				$title_attr = sprintf(
+					esc_attr__( 'Search Twitter for %s' ),
+					esc_attr( '#' . $hashtag )
+				);
 				$tweet = str_replace(
-					'#'.$hashtag,
-					'<a href="'.$this->search.'%23'.$hashtag.'" target="_blank" title="Search Twitter for \''.$hashtag.'\' ">#'.$hashtag.'</a>',
+					'#' . $hashtag,
+					'<a href="' . $this->search . urlencode( '#' . $hashtag ) . '" target="_blank" title="' . $title_attr . '">#' . $hashtag . '</a>',
 					$tweet
 				);
 			}
@@ -840,8 +868,8 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 
 				for ( $i = 0; $i < $count; $i++ ) {
 					$tweet = preg_replace(
-						'|@'.$mentions[ $i ]['screen_name'].'|',
-						'<a href="'.$this->tw.$mentions[ $i ]['screen_name'].'" target="_blank" title="'.$mentions[ $i ]['name'].'">@'.$mentions[ $i ]['screen_name'].'</a>',
+						'|@' . $mentions[ $i ]['screen_name'] . '|',
+						'<a href="' . $this->tw . $mentions[ $i ]['screen_name'] . '" target="_blank" title="' . $mentions[ $i ]['name'] . '">@'.$mentions[ $i ]['screen_name'] . '</a>',
 						$tweet
 					);
 				}
@@ -875,7 +903,7 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 				for ( $i = 0; $i < $count; $i++ ) {
 					$tweet = str_replace(
 						$urls[ $i ]['short_url'],
-						'<a href="'.$urls[ $i ]['short_url'].'" target="_blank">'.$urls[ $i ]['display_url'].'</a>',
+						'<a href="' . $urls[ $i ]['short_url'] . '" target="_blank">' . $urls[ $i ]['display_url'] . '</a>',
 						$tweet
 					);
 				}
@@ -909,7 +937,7 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 				for ( $i = 0; $i < $count; $i++ ) {
 					$tweet = str_replace(
 						$media[ $i ]['short_url'],
-						'<a href="'.$media[ $i ]['short_url'].'" target="_blank">'.$media[ $i ]['display_url'].'</a>',
+						'<a href="' . $media[ $i ]['short_url'] . '" target="_blank">' . $media[ $i ]['display_url'] . '</a>',
 						$tweet
 					);
 				}

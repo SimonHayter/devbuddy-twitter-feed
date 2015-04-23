@@ -3,7 +3,7 @@
 /**
 * A class to create the settings page for this plugin within WordPress
 *
-* @version 2.1.0
+* @version 2.2.0
 */
 if ( ! class_exists( 'DB_Twitter_Feed_Main_Options' ) ) {
 
@@ -62,25 +62,25 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 		array(
 			'cache' => array(
 				'id'       => 'cache_sec',
-				'title'    => 'Cache Management',
+				'title'    => __( 'Cache Management', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_cache_sec' ),
 				'page'     => $this->page_uri_main
 			),
 			'config' => array(
 				'id'       => 'configuration_sec',
-				'title'    => 'Configuration',
+				'title'    => __( 'Configuration', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_configuration_sec' ),
 				'page'     => $this->page_uri_main
 			),
 			'feed' => array(
 				'id'       => 'feed_sec',
-				'title'    => 'Feed Settings',
+				'title'    => __( 'Feed Settings', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_feed_sec' ),
 				'page'     => $this->page_uri_main
 			),
 			'settings' => array(
 				'id'       => 'settings_sec',
-				'title'    => 'General Settings',
+				'title'    => __( 'General Settings', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_settings_sec' ),
 				'page'     => $this->page_uri_main
 			)
@@ -100,7 +100,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 		array(
 			'consumer_key' => array(
 				'id'       => 'consumer_key',
-				'title'    => 'Consumer Key',
+				'title'    => __( 'Consumer Key', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_consumer_key_field' ),
 				'page'     => $this->page_uri_main,
 				'section'  => 'configuration_sec',
@@ -108,7 +108,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 			),
 			'consumer_secret' => array(
 				'id'       => 'consumer_secret',
-				'title'    => 'Consumer Secret',
+				'title'    => __( 'Consumer Secret', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_consumer_secret_field' ),
 				'page'     => $this->page_uri_main,
 				'section'  => 'configuration_sec',
@@ -116,7 +116,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 			),
 			'oauth_access_token' => array(
 				'id'       => 'oauth_access_token',
-				'title'    => 'OAuth Access Token',
+				'title'    => __( 'OAuth Access Token', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_oauth_access_token_field' ),
 				'page'     => $this->page_uri_main,
 				'section'  => 'configuration_sec',
@@ -124,7 +124,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 			),
 			'oauth_access_token_secret' => array(
 				'id'       => 'oauth_access_token_secret',
-				'title'    => 'OAuth Access Token Secret',
+				'title'    => __( 'OAuth Access Token Secret', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_oauth_access_token_secret_field' ),
 				'page'     => $this->page_uri_main,
 				'section'  => 'configuration_sec',
@@ -132,21 +132,21 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 			),
 			'feed_type' => array(
 				'id'       => 'feed_type',
-				'title'    => 'Feed Type',
+				'title'    => __( 'Feed Type', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_radio_fields' ),
 				'page'     => $this->page_uri_main,
 				'section'  => 'feed_sec',
 				'args'     => array(
 					'no_label' => TRUE,
 					'options'  => array(
-						'Timeline' => 'user_timeline',
-						'Search'   => 'search'
+						__( 'Timeline', 'devbuddy-twitter-feed' ) => 'user_timeline',
+						__( 'Search', 'devbuddy-twitter-feed' )   => 'search'
 					)
 				)
 			),
 			'user' => array(
 				'id'       => 'twitter_username',
-				'title'    => 'Twitter Username',
+				'title'    => __( 'Twitter Username', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_twitter_username_field' ),
 				'page'     => $this->page_uri_main,
 				'section'  => 'feed_sec',
@@ -158,12 +158,12 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 			),
 			'search_term' => array(
 				'id'       => 'search_term',
-				'title'    => 'Search Term',
+				'title'    => __( 'Search Term', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_search_term_field' ),
 				'page'     => $this->page_uri_main,
 				'section'  => 'feed_sec',
 				'args'     => array(
-					'desc'   => 'Searches with or without a hashtag are acceptable.',
+					'desc'   => __( 'Searches with or without a hashtag are acceptable.', 'devbuddy-twitter-feed' ),
 					'attr'   => array(
 						'class' => 'input_feed_type'
 					)
@@ -171,7 +171,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 			),
 			'result_count' => array(
 				'id'       => 'result_count',
-				'title'    => 'Number of tweets to show',
+				'title'    => __( 'Number of tweets to show' , 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_numeric_dropdown_field' ),
 				'page'     => $this->page_uri_main,
 				'section'  => 'settings_sec',
@@ -182,28 +182,28 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 			),
 			'cache_hours' => array(
 				'id'       => 'cache_hours',
-				'title'    => 'Cache the feed for how many hours?',
+				'title'    => __( 'Cache the feed for how many hours?', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_numeric_dropdown_field' ),
 				'page'     => $this->page_uri_main,
 				'section'  => 'settings_sec',
 				'args'     => array(
 					'min'    => 0,
 					'max'    => 24,
-					'desc'   => '<p class="description">Select 0 if you don&rsquo;t wish to cache the feed.</p>' )
+					'desc'   => '<p class="description">' . __( 'Select 0 if you don&rsquo;t wish to cache the feed.', 'devbuddy-twitter-feed' ) . '</p>' )
 			),
 			'exclude_replies' => array(
 				'id'       => 'exclude_replies',
-				'title'    => 'Exclude replies?',
+				'title'    => __( 'Exclude replies?', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_checkbox_field' ),
 				'page'     => $this->page_uri_main,
 				'section'  => 'settings_sec',
 				'args'     => array(
-					'desc'   => '<p class="description">It&rsquo;s strongly advised that the cache is activated when this setting is on.</p>'
+					'desc'   => '<p class="description">' . __( 'It&rsquo;s strongly advised that the cache is activated when this setting is on.', 'devbuddy-twitter-feed' ) . '</p>'
 				)
 			),
 			'show_images' => array(
 				'id'       => 'show_images',
-				'title'    => 'Show embedded images?',
+				'title'    => __( 'Show embedded images?', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_checkbox_field' ),
 				'page'     => $this->page_uri_main,
 				'section'  => 'settings_sec',
@@ -211,17 +211,17 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 			),
 			'https' => array(
 				'id'       => 'https',
-				'title'    => 'Load media over HTTPS?',
+				'title'    => __( 'Load media over HTTPS?', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_checkbox_field' ),
 				'page'     => $this->page_uri_main,
 				'section'  => 'settings_sec',
 				'args'     => array(
-					'desc'   => '<p class="description">This only affects media served by Twitter.</p>'
+					'desc'   => '<p class="description">' . __( 'This only affects media served by Twitter.', 'devbuddy-twitter-feed' ) . '</p>'
 				)
 			),
 			'default_styling' => array(
 				'id'       => 'default_styling',
-				'title'    => 'Load default stylesheet?',
+				'title'    => __( 'Load default stylesheet?', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write_checkbox_field' ),
 				'page'     => $this->page_uri_main,
 				'section'  => 'settings_sec',
@@ -229,7 +229,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 			)/*,
 			'' => array(
 				'id'       => '',
-				'title'    => '',
+				'title'    => __( '', 'devbuddy-twitter-feed' ),
 				'callback' => array( $this, 'write__field' ),
 				'page'     => $this->page_uri_main,
 				'section'  => '',
@@ -273,8 +273,8 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 		if ( $hook != 'settings_page_db-twitter-feed-settings' ) {
 			return;
 		}
-		wp_enqueue_style( $this->plugin_name.'_admin_styles', DBTF_URL.'/assets/main-admin.css', NULL, '1.0.1', 'all' );
-		wp_enqueue_script( $this->plugin_name.'_admin_functions', DBTF_URL.'/assets/main-admin.js', array( 'jquery-core' ), '1.0.0', true );
+		wp_enqueue_style( $this->plugin_name . '_admin_styles', DBTF_URL . '/assets/main-admin.css', NULL, '1.0.1', 'all' );
+		wp_enqueue_script( $this->plugin_name . '_admin_functions', DBTF_URL . '/assets/main-admin.js', array( 'jquery-core' ), '1.0.0', true );
 	}
 
 
@@ -289,18 +289,18 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 		$br      = "\n";
 		$tab     = '	';
 
-		$class_name = strtoupper($this->plugin_short_name);
+		$class_name = strtoupper( $this->plugin_short_name );
 
-		$output  = $br.'<script type="text/javascript">'.$br;
-		$output .= $tab.'var '.$class_name.' = '.$class_name.' || {};'.$br;
+		$output  = $br . '<script type="text/javascript">' . $br;
+		$output .= $tab . 'var ' . $class_name . ' = ' . $class_name . ' || {};' . $br;
 
-		$output .= $tab.$class_name.'.pluginName      = \''.$this->plugin_name.'\';'.$br;
-		$output .= $tab.$class_name.'.pluginShortName = \''.$this->plugin_short_name.'\';'.$br;
+		$output .= $tab . $class_name . '.pluginName      = \'' . $this->plugin_name . '\';' . $br;
+		$output .= $tab . $class_name . '.pluginShortName = \'' . $this->plugin_short_name . '\';' . $br;
 
-		$output .= $tab.$class_name.'.optionsNameMain  = \''.$this->options_name_main.'\';'.$br;
-		$output .= $tab.$class_name.'.optionsGroup     = \''.$this->options_group_main.'\';'.$br;
+		$output .= $tab . $class_name . '.optionsNameMain  = \'' . $this->options_name_main . '\';' . $br;
+		$output .= $tab . $class_name . '.optionsGroup     = \'' . $this->options_group_main . '\';' . $br;
 
-		$output .= '</script>'.$br.$br;
+		$output .= '</script>' . $br . $br;
 
 		echo $output;
 	}
@@ -316,8 +316,8 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 	public function add_menu_item() {
 		add_submenu_page(
 			'options-general.php',
-			'Configure your Twitter feed set up',
-			'Twitter Feed Settings',
+			__( 'Configure your Twitter feed set up', 'devbuddy-twitter-feed' ),
+			__( 'Twitter Feed Settings', 'devbuddy-twitter-feed' ),
 			'manage_options',
 			$this->page_uri_main,
 			array( $this, 'settings_page_markup' )
@@ -373,20 +373,20 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 	*/
 	public function settings_page_markup() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+			wp_die( __( 'You do not have sufficient permissions to access this page.', 'devbuddy-twitter-feed' ) );
 		} ?>
 
 		<div id="<?php echo $this->plugin_short_name ?>" class="wrap">
 
 			<?php screen_icon() ?>
-			<h2>Twitter Feed Settings</h2>
+			<h2><?php __( 'Twitter Feed Settings', 'devbuddy-twitter-feed' ) ?></h2>
 
 			<form id="<?php echo $this->plugin_name ?>_settings" action="options.php" method="post">
 				<?php
 				settings_fields( $this->options_group_main );
 				do_settings_sections( $this->page_uri_main );
 
-				submit_button( 'Save Changes' )
+				submit_button( __( 'Save Changes', 'devbuddy-twitter-feed' ) )
 				?>
 			</form>
 
@@ -407,7 +407,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 	* @param string $item_id The ID of the item to be prefixed
 	*/
 	protected function _html_item_id_attr( $item_id ) {
-		return $this->html_item_id_prefix.$item_id;
+		return $this->html_item_id_prefix . $item_id;
 	}
 
 
@@ -426,14 +426,18 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 
 		echo '<select name="' . $this->options_name_main . '[cache_segment]" id="' . $this->plugin_short_name . '_cache_segment">
 				<option value="0">--</option>
-				<option value="user_timeline">User timelines</option>
-				<option value="search">Searches</option>
-				<option value="all">All</option>
+				<option value="user_timeline">' . __( 'User timelines', 'devbuddy-twitter-feed' ) . '</option>
+				<option value="search">' . __( 'Searches', 'devbuddy-twitter-feed' ) . '</option>
+				<option value="all">' . __( 'All', 'devbuddy-twitter-feed' ) . '</option>
 			</select>';
 
 		echo '<input type="hidden" id="' . $this->plugin_short_name . '_cache_clear_flag" name="' . $this->options_name_main . '[cache_clear_flag]" value="0" />';
 
-		echo get_submit_button( 'Clear Cache', 'secondary', $this->plugin_short_name . '_batch_clear_cache' );
+		echo get_submit_button(
+			__( 'Clear Cache', 'devbuddy-twitter-feed' ),
+			'secondary',
+			$this->plugin_short_name . '_batch_clear_cache'
+		);
 		echo '</div>';
 	}
 
@@ -472,7 +476,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 	* @since 1.0.0
 	*/
 	public function write_configuration_sec() {
-		echo 'You\'ll need to log into the Twitter Developers site and set up an app. Once you\'ve set one up you will get the data necessary for below. For a step by step, see the <a href="http://wordpress.org/plugins/devbuddy-twitter-feed/installation/" target="_blank">walkthrough</a>.';
+		_e( 'You\'ll need to log into the Twitter Developers site and set up an app. Once you\'ve set one up you will get the data necessary for below. For a step by step, see the <a href="http://wordpress.org/plugins/devbuddy-twitter-feed/installation/" target="_blank">walkthrough</a>.', 'devbuddy-twitter-feed' );
 	}
 
 
@@ -487,7 +491,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 		$consumer_key = $this->get_db_plugin_option( $this->options_name_main, 'consumer_key' );
 		$consumer_key = $this->mask_data( $consumer_key );
 
-		echo '<input type="text" id="'.$this->_html_item_id_attr( $args['option'] ).'" name="'.$this->options_name_main.'[consumer_key]" value="'.$consumer_key.'" style="width:450px;" />';
+		echo '<input type="text" id="' . $this->_html_item_id_attr( $args['option'] ) . '" name="' . $this->options_name_main . '[consumer_key]" value="' . $consumer_key . '" style="width:450px;" />';
 	}
 
 
@@ -502,7 +506,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 		$consumer_secret = $this->get_db_plugin_option( $this->options_name_main, 'consumer_secret' );
 		$consumer_secret = $this->mask_data( $consumer_secret );
 
-		echo '<input type="text" id="'.$this->_html_item_id_attr( $args['option'] ).'" name="'.$this->options_name_main.'[consumer_secret]" value="'.$consumer_secret.'" style="width:450px;" />';
+		echo '<input type="text" id="' . $this->_html_item_id_attr( $args['option'] ) . '" name="' . $this->options_name_main . '[consumer_secret]" value="' . $consumer_secret . '" style="width:450px;" />';
 	}
 
 
@@ -521,7 +525,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 
 		$oauth_access_token = $this->mask_data( $oauth_access_token, $start );
 
-		echo '<input type="text" id="'.$this->_html_item_id_attr( $args['option'] ).'" name="'.$this->options_name_main.'[oauth_access_token]" value="'.$oauth_access_token.'" style="width:450px;" />';
+		echo '<input type="text" id="' . $this->_html_item_id_attr( $args['option'] ) . '" name="' . $this->options_name_main . '[oauth_access_token]" value="' . $oauth_access_token . '" style="width:450px;" />';
 	}
 
 
@@ -536,7 +540,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 		$oauth_access_token_secret = $this->get_db_plugin_option( $this->options_name_main, 'oauth_access_token_secret' );
 		$oauth_access_token_secret = $this->mask_data( $oauth_access_token_secret );
 
-		echo '<input type="text" id="'.$this->_html_item_id_attr( $args['option'] ).'" name="'.$this->options_name_main.'[oauth_access_token_secret]" value="'.$oauth_access_token_secret.'" style="width:450px;" />';
+		echo '<input type="text" id="' . $this->_html_item_id_attr( $args['option'] ) . '" name="' . $this->options_name_main . '[oauth_access_token_secret]" value="' . $oauth_access_token_secret . '" style="width:450px;" />';
 	}
 
 
@@ -564,20 +568,20 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 	public function write_twitter_username_field( $args ) {
 		$twitter_username = $this->get_db_plugin_option( $this->options_name_main, 'twitter_username' );
 
-		echo '<strong>twitter.com/<input type="text" id="'.$this->_html_item_id_attr( $args['option'] ).'" name="'.$this->options_name_main.'[twitter_username]"';
+		echo '<strong>twitter.com/<input type="text" id="' . $this->_html_item_id_attr( $args['option'] ) . '" name="' . $this->options_name_main . '[twitter_username]"';
 
 		if ( $twitter_username ) {
-			echo ' value="'.$twitter_username.'"';
+			echo ' value="' . $twitter_username . '"';
 		}
 
 		echo ( isset( $args['attr'] ) ) ? $this->write_attr( $args['attr'] ) : '';
 
 		echo ' /></strong>';
 
-		echo '<input type="hidden" name="'.$this->options_name_main.'[twitter_username_hid]"';
+		echo '<input type="hidden" name="' . $this->options_name_main . '[twitter_username_hid]"';
 
 		if ( $twitter_username ) {
-			echo ' value="'.$twitter_username.'"';
+			echo ' value="' . $twitter_username . '"';
 		}
 
 		echo ' />';
@@ -596,20 +600,20 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 	public function write_search_term_field( $args ) {
 		$search_term = $this->get_db_plugin_option( $this->options_name_main, 'search_term' );
 
-		echo '<input type="text" id="'.$this->_html_item_id_attr( $args['option'] ).'" name="'.$this->options_name_main.'[search_term]"';
+		echo '<input type="text" id="' . $this->_html_item_id_attr( $args['option'] ) . '" name="' . $this->options_name_main.'[search_term]"';
 
 		if ( $search_term ) {
-			echo ' value="'.$search_term.'"';
+			echo ' value="' . $search_term . '"';
 		}
 
 		echo ( isset( $args['attr'] ) ) ? $this->write_attr( $args['attr'] ) : '';
 
 		echo ' />';
 
-		echo '<input type="hidden" name="'.$this->options_name_main.'[search_term_hid]"';
+		echo '<input type="hidden" name="' . $this->options_name_main . '[search_term_hid]"';
 
 		if ( $search_term ) {
-			echo ' value="'.$search_term.'"';
+			echo ' value="' . $search_term . '"';
 		}
 
 		echo ' />';
