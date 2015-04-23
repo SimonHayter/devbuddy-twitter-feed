@@ -74,7 +74,6 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 	 * Constructor.
 	 *
 	 * @access public
-	 * @return void
 	 * @since 1.0.0
 	 */
 	public function __construct( $feed_config ) {
@@ -286,7 +285,7 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 	 * Performs a full retrieval of data, iteratively retrieving more
 	 * if the item count is lower the count option provided.
 	 *
-	 * This method also checks for errors
+	 * This method also checks for errors.
 	 *
 	 * @access public
 	 * @return bool TRUE on success, FALSE otherwise
@@ -364,9 +363,15 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 				// Figure out how many tweets left to get
 				$retrieval_count = $this->options['count'] - $this->item_count;
 
+				/* This retrieval includes the last tweet from the last retrieval
+				   as a result of using the last tweet's ID as the starting point.
+				   Here, we +1 the retrieval count to account for that. We'll
+				   remove the repeated tweet after retrieval. */
+				$retrieval_count++;
+
 				// Update retrieval parameters
-				$retrieval_params['get_parameters']['count']    = $retrieval_count;
-				$retrieval_params['get_parameters']['since_id'] = $cont_id;
+				$retrieval_params['get_parameters']['count']  = $retrieval_count;
+				$retrieval_params['get_parameters']['max_id'] = $cont_id;
 
 				// Retrieve more data
 				$more_data = $this->perform_retrieval($retrieval_params);
@@ -389,6 +394,10 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 					break;
 				}
 
+				/* Remove the first tweet as it will be the same as the last tweet
+				   from the last retrieval */
+				unset( $more_data[0] );
+
 				// Update the raw feed data property
 				$this->feed_data = $this->feed_data + $more_data;
 
@@ -403,6 +412,7 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 						$this->item_count++;
 					}
 				}
+
 			} else {
 				break;
 			}
