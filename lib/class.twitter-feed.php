@@ -312,6 +312,12 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 				if ( $this->options['exclude_replies'] === 'yes' ) {
 					$retrieval_params['get_parameters']['exclude_replies'] = 'true';
 				}
+
+				if ( $this->options['exclude_retweets'] === 'yes' ) {
+					$retrieval_params['get_parameters']['include_rts'] = '0';
+				} else {
+					$retrieval_params['get_parameters']['include_rts'] = '1';
+				}
 			break;
 
 			case 'search':
