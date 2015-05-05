@@ -51,6 +51,7 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 		'search_term'               => '#twitter',      // String: Any term to be search on Twitter
 		'count'                     => '10',            // String: Number of tweets to retrieve
 		'exclude_replies'           => 'no',            // String: ("yes" or "no") Only display tweets that aren't replies
+		'relative_times'            => 'yes',           // String: ("yes" or "no") Display relative times
 		'show_images'               => 'no',            // String: ("yes" or "no") Whether to load embedded images or not
 		'https'                     => 'no',            // String: ("yes" or "no") Load media from Twitter over secure HTTPS
 		'default_styling'           => 'no',            // String: ("yes" or "no") Load the bundled stylesheet
@@ -144,6 +145,7 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 			'search_term'               => NULL,
 			'count'                     => NULL,
 			'exclude_replies'           => NULL,
+			'relative_times'            => NULL,
 			'show_images'               => NULL,
 			'https'                     => NULL,
 			'default_styling'           => NULL,
@@ -166,6 +168,7 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 			'search_term'               => $search_term,
 			'count'                     => $count,
 			'exclude_replies'           => $exclude_replies,
+			'relative_times'            => $relative_times,
 			'show_images'               => $show_images,
 			'https'                     => $https,
 			'default_styling'           => $default_styling,

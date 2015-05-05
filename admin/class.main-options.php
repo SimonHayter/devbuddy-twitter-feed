@@ -201,6 +201,16 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 					'desc'   => '<p class="description">Twitter removes replies only after it retrieves the number of tweets you request.<br />Thus if you choose 10, and out of that 10 6 are replies, only 4 tweets will be displayed.</p>'
 				)
 			),
+			'relative_times' => array(
+				'id'       => 'relative_times',
+				'title'    => 'Display relative times?',
+				'callback' => array( $this, 'write_checkbox_field' ),
+				'page'     => $this->page_uri_main,
+				'section'  => 'settings_sec',
+				'args'     => array(
+					'desc'   => '<p class="description">' . __( 'For example, "10 mins ago".' ) . '</p>'
+				)
+			),
 			'show_images' => array(
 				'id'       => 'show_images',
 				'title'    => 'Show embedded images?',
