@@ -51,8 +51,8 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 		'search_term'               => '#twitter',      // String: Any term to be search on Twitter
 		'count'                     => '10',            // String: Number of tweets to retrieve
 		'exclude_replies'           => 'no',            // String: ("yes" or "no") Only display tweets that aren't replies
-		'show_images'               => 'no',            // String: ("yes" or "no") Whether to load embedded images or not
-		'https'                     => 'no',            // String: ("yes" or "no") Load media from Twitter over secure HTTPS
+		'show_images'               => 'yes',            // String: ("yes" or "no") Whether to load embedded images or not
+		'https'                     => 'yes',            // String: ("yes" or "no") Load media from Twitter over secure HTTPS
 		'default_styling'           => 'no',            // String: ("yes" or "no") Load the bundled stylesheet
 		'cache_hours'               => 0,               // Int:    Number of hours to cache the output
 		'clear_cache'               => 'no',            // String: ("yes" or "no") Clear the cache for the set feed term,
@@ -96,6 +96,34 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 		$this->options_group_main = $this->plugin_name;
 		$this->options_name_main  = $this->plugin_name.'_options';
 		$this->page_uri_main      = 'db-twitter-feed-settings';
+	}
+
+
+	/**
+	 * Get a value for an option.
+	 *
+	 * This will first check the database for the option. Where nothing is found
+	 * it will return the default value set for the given option.
+	 *
+	 * @access public
+	 * @since  1.2.0
+	 *
+	 * @param string $option_entry
+	 * @param string $option_name
+	 * @return mixed
+	 *
+	 * @see DevBuddy_Feed_Plugin::get_option()
+	 */
+	public function get_option( $option_entry, $option_name = NULL ) {
+		// Grab from the database
+		$value = parent::get_option( $option_entry, $option_name );
+
+		// Grab from the defaults if nothing is set in the database
+		if ( $value === FALSE && $option_name !== NULL && isset( $this->defaults[ $option_name ] ) ) {
+			$value = $this->defaults[ $option_name ];
+		}
+
+		return $value;
 	}
 
 
@@ -334,6 +362,23 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 				$input[ $feed_value_name ] = $value;
 
 				unset( $input[ $item ] );
+			}
+		}
+
+
+		// Checkbox fields that are unchecked aren't included in the $input data. Here we remedy this
+		foreach ( $this->defaults as $item => $default_value ) {
+			if ( ! isset( $input[ $item ] ) && ( $default_value === 'yes' || $default_value === 'no' ) ) {
+				$stored_value = parent::get_option( $this->options_name_main, $item );
+
+				// Nothing in DB, get default
+				if ( $stored_value === FALSE ) {
+					$input[ $item ] = $this->defaults[ $item ];
+
+				// Something in DB, assume a missing value is an active change by the user
+				} elseif ( ! isset( $input[ $item ] ) && $stored_value !== 'no' ) {
+					$input[ $item ] = 'no';
+				}
 			}
 		}
 
