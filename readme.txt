@@ -61,6 +61,9 @@ Both accept the same arguments/attributes which are all listed and explained bel
 **search_term (string)**; *default*: #twitter
 > The term you wish to search Twitter for, with or without a hashtag.
 
+**list (string)**; *default*: mashable/social-media/mashable
+> The slug of a list followed by the username of the owner, separated by a "/"
+
 **count (int)**; *default*: 10
 > The number of tweets you want displayed. The maximum Twitter allows per request is at 200. Page speed can be substantially affected when loading multiple feeds on one page.
 

@@ -58,6 +58,12 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 	protected $search_endpoint = 'https://api.twitter.com/1.1/search/tweets.json';
 
 	/**
+	 * @var string Twitter List endpoint URL
+	 * @since 1.3.0
+	 */
+	protected $list_endpoint = 'https://api.twitter.com/1.1/lists/statuses.json';
+
+	/**
 	 * @var array If there are any errors after a check is made for such, they will be stored here
 	 * @since 1.0.2
 	 */
@@ -155,6 +161,10 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 
 			case 'search':
 				$this->feed_term = $this->options['search_term'];
+				break;
+
+			case 'list':
+				$this->feed_term = $this->options[ $this->options['feed_type'] ];
 				break;
 
 			default:
@@ -299,12 +309,13 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 		}
 
 		$retrieval_params = array(
-			'get_parameters' => array()
+			'get_parameters' => array(
+				'count' => $this->options['count']
+			)
 		);
 
 		// Set retrieval parameters
 		switch ( $this->options['feed_type'] ) {
-			default:
 			case 'user_timeline':
 				$retrieval_params['endpoint_url'] = $this->user_endpoint . $this->options['user'] . '.json';
 				$retrieval_params['get_parameters']['screen_name'] = $this->options['user'];
@@ -316,9 +327,27 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 
 			case 'search':
 				$retrieval_params['endpoint_url'] = $this->search_endpoint;
-				$retrieval_params['get_parameters']['q'] = urlencode( $this->options['search_term'] );
+				$retrieval_params['get_parameters']['q'] = $this->options['search_term'];
 				$retrieval_params['get_parameters']['result_type'] = 'recent';
 			break;
+
+			case 'list':
+				$list_data = $this->get_list_term_data( $this->options['list'] );
+				if ( $list_data === FALSE ) {
+					return FALSE;
+				}
+
+				$retrieval_params['endpoint_url'] = $this->list_endpoint;
+				$retrieval_params['get_parameters']['slug'] = $list_data[0];
+				$retrieval_params['get_parameters']['owner_screen_name'] = $list_data[1];
+				if ( $this->options['exclude_retweets'] === 'yes' ) {
+					$retrieval_params['get_parameters']['include_rts'] = 'false';
+				}
+				break;
+
+			default:
+				return FALSE;
+				break;
 		}
 
 		// Retrieve the data
@@ -376,7 +405,7 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 				// Retrieve more data
 				$more_data = $this->perform_retrieval($retrieval_params);
 
-				if ( $more_data === false ) {
+				if ( empty( $more_data ) ) {
 					break;
 				}
 
