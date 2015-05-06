@@ -198,7 +198,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 				'page'     => $this->page_uri_main,
 				'section'  => 'settings_sec',
 				'args'     => array(
-					'desc'   => '<p class="description">' . __( 'Twitter removes replies only after it retrieves the number of tweets you request.<br />Thus if you choose 10, and out of that 10 6 are replies, only 4 tweets will be displayed.', 'devbuddy-twitter-feed' ) . '</p>'
+					'desc'   => '<p class="description">' . __( 'It&rsquo;s strongly advised that the cache is activated when this setting is on.', 'devbuddy-twitter-feed' ) . '</p>'
 				)
 			),
 			'show_images' => array(

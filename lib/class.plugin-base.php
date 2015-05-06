@@ -24,6 +24,11 @@ class DevBuddy_Feed_Plugin {
 	public $feed_data;
 
 	/**
+	 * @var mixed Holds the feed data after it has been parsed by the plugin
+	 */
+	public $parsed_feed_data = array();
+
+	/**
 	* @var array Holds the configuration options once the feed class has been instantiated
 	*/
 	public $options;
@@ -36,7 +41,7 @@ class DevBuddy_Feed_Plugin {
 	/**
 	* @var int The number of feed items that have been rendered
 	*/
-	private $item_count = 0;
+	protected $item_count = 0;
 
 	/**
 	* @var bool A boolean indication of whether or not a cached version of the output is available
