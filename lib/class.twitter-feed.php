@@ -618,13 +618,13 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 
 	/*	Tweet data */
 	/************************************************/
-		$tweet['id']				= $t->id_str;
-		$tweet['text']				= $t->text;
+		$tweet['id']   = $t->id_str;
+		$tweet['text'] = $t->text;
 
-		if ( (int) $this->options['cache_hours'] <= 2 ) {
-			$tweet['date']          = $this->formatify_date( $t->created_at );
+		if ( $this->options['relative_times'] === 'yes' ) {
+			$tweet['date'] = $this->formatify_date( $t->created_at );
 		} else {
-			$tweet['date']          = $this->formatify_date( $t->created_at, FALSE );
+			$tweet['date'] = $this->formatify_date( $t->created_at, FALSE );
 		}
 
 		$tweet['user_replied_to']	= $t->in_reply_to_screen_name;

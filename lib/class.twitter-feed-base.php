@@ -64,6 +64,9 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 		// String: ("yes" or "no") Only display tweets that aren't replies
 		'exclude_replies'           => 'no',
 
+		// String: ("yes" or "no") Display relative times
+		'relative_times'            => 'yes',
+
 		// String: ("yes" or "no") Whether to load embedded images or not
 		'show_images'               => 'no',
 
@@ -223,6 +226,7 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 			'count'                     => NULL,
 			'exclude_replies'           => NULL,
 			'exclude_retweets'          => NULL,
+			'relative_times'            => NULL,
 			'show_images'               => NULL,
 			'https'                     => NULL,
 			'default_styling'           => NULL,
@@ -247,6 +251,7 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 			'count'                     => $count,
 			'exclude_replies'           => $exclude_replies,
 			'exclude_retweets'          => $exclude_retweets,
+			'relative_times'            => $relative_times,
 			'show_images'               => $show_images,
 			'https'                     => $https,
 			'default_styling'           => $default_styling,
