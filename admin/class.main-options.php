@@ -191,7 +191,8 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 				'section'  => 'settings_sec',
 				'args'     => array(
 					'min'    => 1,
-					'max'    => 30
+					'max'    => 30,
+					'desc'   => '<p class="description">' . __( 'If you&rsquo;re excluding data (e.g. retweets) the feed cannot guarantee to have the number of tweets you request.', 'devbuddy-twitter-feed' ) . '</p>'
 				)
 			),
 			'cache_hours' => array(
@@ -212,7 +213,23 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 				'page'     => $this->page_uri_main,
 				'section'  => 'settings_sec',
 				'args'     => array(
-					'desc'   => '<p class="description">' . __( 'It&rsquo;s strongly advised that the cache is activated when this setting is on.', 'devbuddy-twitter-feed' ) . '</p>'
+					'desc'   => '<p class="description">' .
+						__( 'Only applies to feed type &ldquo;Timeline&rdquo;.' ) . ' ' .
+						__( 'It&rsquo;s strongly advised that the cache is activated when this setting is on.', 'devbuddy-twitter-feed' ) .
+						'</p>'
+				)
+			),
+			'exclude_retweets' => array(
+				'id'       => 'exclude_retweets',
+				'title'    => __( 'Exclude retweets?', 'devbuddy-twitter-feed' ),
+				'callback' => array( $this, 'write_checkbox_field' ),
+				'page'     => $this->page_uri_main,
+				'section'  => 'settings_sec',
+				'args'     => array(
+					'desc'   => '<p class="description">' .
+						__( 'Only applies to feed type &ldquo;Timeline&rdquo;.' ) . ' ' .
+						__( 'It&rsquo;s strongly advised that the cache is activated when this setting is on.', 'devbuddy-twitter-feed' ) .
+						'</p>'
 				)
 			),
 			'show_images' => array(

@@ -113,6 +113,9 @@ Both accept the same arguments/attributes which are all listed and explained bel
 
 = 3.3.0 =
 * The plugin has had Internationalization implemented, no translations are currently bundled with the plugin
+* The option to exclude retweets is now available. Simply add `'exclude_retweets' => 'yes'` to your template tag array or `exclude_retweets="yes"` to your shortcode
+* The feed now attempts to honour the number of tweets requested by the user where tweet exclusions have been established
+* General housekeeping and minor improvements.
 
 = 3.2.0 =
 * Feeds now have the facility to display embedded image media along with the tweet. Simply update the option on the settings page, or add `show_images="yes"` to your shortcode, or add `'show_images' => 'yes'` to the options array of your template tag
@@ -179,11 +182,11 @@ Developers can now utilise the plugin system to create their own template tags a
 Bug Fix: Using the shortcode to render the feed in the WordPress editor places the feed within the content rather than directly above it.
 
 = 2.0.2 =
-* Bug fix: The feed now extracts the string versions of IDs rather than the integer versions. This means long IDs are no longer susceptible to being read mathmetically, i.e. 372489002391470081 instead of 3.7248900239147E+17. 
+* Bug fix: The feed now extracts the string versions of IDs rather than the integer versions. This means long IDs are no longer susceptible to being read mathematically, i.e. 372489002391470081 instead of 3.7248900239147E+17.
 * The feed now offers friendly feedback should the timeline requested be empty.
 
 = 2.0.1 =
-Minor rectifications to code that prevented the defaut stylesheet from loading
+Minor rectifications to code that prevented the default stylesheet from loading
 
 = 2.0.0 =
 * Complete overhaul of the plugin's code. Code is now much more modular and refined
@@ -200,6 +203,9 @@ First release.
 
 = 3.3.0 =
 * The plugin has had Internationalization implemented, no translations are currently bundled with the plugin
+* The option to exclude retweets is now available. Simply add `'exclude_retweets' => 'yes'` to your template tag array or `exclude_retweets="yes"` to your shortcode
+* The feed now attempts to honour the number of tweets requested by the user where tweet exclusions have been established
+* General housekeeping and minor improvements.
 
 = 3.2.0 =
 * Feeds now have the facility to display embedded image media along with the tweet. Simply update the option on the settings page, or add `show_images="yes"` to your shortcode, or add `'show_images' => 'yes'` to the options array of your template tag
