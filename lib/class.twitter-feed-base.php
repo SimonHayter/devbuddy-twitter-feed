@@ -50,13 +50,13 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 		'feed_type'                 => 'user_timeline',
 
 		// String: Any valid Twitter username
-		'user'                      => 'EjiOsigwe',
+		'user'                      => 'twitter',
 
 		// String: Any term to be search on Twitter
 		'search_term'               => '#twitter',
 
 		// String: The slug of a list followed by the username of the owner, separated by a "/"
-		'list'                      => 'social-media/mashable',
+		'list'                      => 'twitter-ir/twitter',
 
 		// String: Number of tweets to retrieve
 		'count'                     => '10',
