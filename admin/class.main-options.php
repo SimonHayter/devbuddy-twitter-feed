@@ -140,7 +140,8 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 					'no_label' => TRUE,
 					'options'  => array(
 						__( 'Timeline', 'devbuddy-twitter-feed' ) => 'user_timeline',
-						__( 'Search', 'devbuddy-twitter-feed' )   => 'search'
+						__( 'Search', 'devbuddy-twitter-feed' )   => 'search',
+						__( 'List', 'devbuddy-twitter-feed' )   => 'list'
 					)
 				)
 			),
@@ -163,7 +164,20 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 				'page'     => $this->page_uri_main,
 				'section'  => 'feed_sec',
 				'args'     => array(
-					'desc'   => __( 'Searches with or without a hashtag are acceptable.', 'devbuddy-twitter-feed' ),
+					'desc'   => __( 'Searches with or without a hashtag are supported.', 'devbuddy-twitter-feed' ),
+					'attr'   => array(
+						'class' => 'input_feed_type'
+					)
+				)
+			),
+			'list' => array(
+				'id'       => 'list',
+				'title'    => __( 'Twitter List', 'devbuddy-twitter-feed' ),
+				'callback' => array( $this, 'write_list_field' ),
+				'page'     => $this->page_uri_main,
+				'section'  => 'feed_sec',
+				'args'     => array(
+					'desc'   => __( 'Enter the slug of a list followed by the username of the owner, separated by a "/".', 'devbuddy-twitter-feed' ) . ' <strong>e.g. slug-of-list/twitterUsername</strong>',
 					'attr'   => array(
 						'class' => 'input_feed_type'
 					)
@@ -428,6 +442,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 				<option value="0">--</option>
 				<option value="user_timeline">' . __( 'User timelines', 'devbuddy-twitter-feed' ) . '</option>
 				<option value="search">' . __( 'Searches', 'devbuddy-twitter-feed' ) . '</option>
+				<option value="list">' . __( 'Lists', 'devbuddy-twitter-feed' ) . '</option>
 				<option value="all">' . __( 'All', 'devbuddy-twitter-feed' ) . '</option>
 			</select>';
 
@@ -568,7 +583,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 	public function write_twitter_username_field( $args ) {
 		$twitter_username = $this->get_db_plugin_option( $this->options_name_main, 'twitter_username' );
 
-		echo '<strong>twitter.com/<input type="text" id="' . $this->_html_item_id_attr( $args['option'] ) . '" name="' . $this->options_name_main . '[twitter_username]"';
+		echo '<strong>twitter.com/</strong><input type="text" id="' . $this->_html_item_id_attr( $args['option'] ) . '" name="' . $this->options_name_main . '[twitter_username]"';
 
 		if ( $twitter_username ) {
 			echo ' value="' . $twitter_username . '"';
@@ -576,7 +591,7 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 
 		echo ( isset( $args['attr'] ) ) ? $this->write_attr( $args['attr'] ) : '';
 
-		echo ' /></strong>';
+		echo ' />';
 
 		echo '<input type="hidden" name="' . $this->options_name_main . '[twitter_username_hid]"';
 
@@ -614,6 +629,38 @@ class DB_Twitter_Feed_Main_Options extends DB_Plugin_WP_Admin_Helper {
 
 		if ( $search_term ) {
 			echo ' value="' . $search_term . '"';
+		}
+
+		echo ' />';
+
+		echo ( isset( $args['desc'] ) ) ? $this->write_desc( $args['desc'] ) : '';
+	}
+
+
+	/**
+	 * Output the Twitter list setting's field
+	 *
+	 * @access public
+	 * @return void
+	 * @since 1.0.0
+	 */
+	public function write_list_field( $args ) {
+		$list = $this->get_db_plugin_option( $this->options_name_main, 'list' );
+
+		echo '<input type="text" id="' . $this->_html_item_id_attr( $args['option'] ) . '" name="' . $this->options_name_main . '[list]"';
+
+		if ( $list ) {
+			echo ' value="' . $list . '"';
+		}
+
+		echo ( isset( $args['attr'] ) ) ? $this->write_attr( $args['attr'] ) : '';
+
+		echo ' />';
+
+		echo '<input type="hidden" name="' . $this->options_name_main . '[list_hid]"';
+
+		if ( $list ) {
+			echo ' value="' . $list . '"';
 		}
 
 		echo ' />';
