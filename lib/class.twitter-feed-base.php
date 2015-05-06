@@ -61,8 +61,11 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 		// String: Number of tweets to retrieve
 		'count'                     => '10',
 
-		// String: ("yes" or "no") Only display tweets that aren't replies
+		// String: ("yes" or "no") Remove replies from the retrieved feed data
 		'exclude_replies'           => 'no',
+
+		// String: ("yes" or "no") Remove retweets from the retrieved feed data
+		'exclude_retweets'           => 'no',
 
 		// String: ("yes" or "no") Display relative times
 		'relative_times'            => 'yes',
@@ -104,7 +107,6 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 	* with WordPress.
 	*
 	* @access public
-	* @return void
 	* @since 1.0.0
 	*/
 	public function __construct() {
