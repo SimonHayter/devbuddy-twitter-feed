@@ -154,34 +154,6 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 
 
 	/**
-	 * Get a value for an option.
-	 *
-	 * This will first check the database for the option. Where nothing is found
-	 * it will return the default value set for the given option.
-	 *
-	 * @access public
-	 * @since  1.2.0
-	 *
-	 * @param string $option_entry
-	 * @param string $option_name
-	 * @return mixed
-	 *
-	 * @see DevBuddy_Feed_Plugin::get_option()
-	 */
-	public function get_option( $option_entry, $option_name = NULL ) {
-		// Grab from the database
-		$value = parent::get_option( $option_entry, $option_name );
-
-		// Grab from the defaults if nothing is set in the database
-		if ( $value === FALSE && $option_name !== NULL && isset( $this->defaults[ $option_name ] ) ) {
-			$value = $this->defaults[ $option_name ];
-		}
-
-		return $value;
-	}
-
-
-	/**
 	* Register the bundled stylesheet within WordPress ready for loading
 	*
 	* @access public
