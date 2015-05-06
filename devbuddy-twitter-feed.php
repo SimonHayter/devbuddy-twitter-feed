@@ -2,7 +2,7 @@
 /*
 Plugin Name: DevBuddy Twitter Feed Plugin
 Plugin URI: http://wordpress.org/plugins/devbuddy-twitter-feed/
-Description: A Twitter (v1.1) feed plugin for the developers that's flexible and supports displaying multiple feeds of both user and search timelines.
+Description: A Twitter (v1.1) feed plugin for the developers that's fully customisable and support timelines, searches and lists.
 Author: Eji Osigwe
 Version: 4.0.0
 Author URI: http://www.eji-osigwe.co.uk/
