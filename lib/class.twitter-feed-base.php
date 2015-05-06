@@ -426,14 +426,14 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 		// Checkbox fields that are unchecked aren't included in the $input data. Here we remedy this
 		foreach ( $this->defaults as $item => $default_value ) {
 			if ( ! isset( $input[ $item ] ) && ( $default_value === 'yes' || $default_value === 'no' ) ) {
-				$stored_value = parent::get_option( $this->options_name_main, $item );
+				$stored_value = $this->get_option( $this->options_name_main, $item );
 
 				// Nothing in DB, get default
 				if ( $stored_value === FALSE ) {
 					$input[ $item ] = $this->defaults[ $item ];
 
 				// Something in DB, assume a missing value is an active change by the user
-				} elseif ( ! isset( $input[ $item ] ) && $stored_value !== 'no' ) {
+				} elseif ( ! isset( $input[ $item ] ) ) {
 					$input[ $item ] = 'no';
 				}
 			}
