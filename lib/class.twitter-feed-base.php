@@ -213,7 +213,7 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 	* work.
 	*
 	* @access public
-	* @return The db_twitter_feed() template tag with the $given_atts array as the parameter
+	* @return string The db_twitter_feed() template tag with the $given_atts array as the parameter
 	* @since 1.0.0
 	*
 	* @param array $given_atts An associative array of feed configuration options
@@ -274,7 +274,7 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 	* Retrieve original version of masked data 
 	*
 	* Takes a name, searches the database for,
-	* and returns the original, untampered data.
+	* and returns the original, un-tampered data.
 	*
 	* @access protected
 	* @return array
@@ -325,6 +325,7 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 
 			// Establish tone of error by reading what is returned by batch_clear_cache()
 			switch ( $bcc_feedback ) {
+				default:
 				case 'no_' . $input['cache_segment'] . '_cache_data_to_clear':
 				case 'no_cache_data_to_clear':
 				case 'no_segment_chosen':
@@ -525,7 +526,7 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 	* to TRUE once the cache is set.
 	*
 	* @access public
-	* @return void
+	* @return bool
 	* @since 1.2.0
 	*
 	* @param int $hours The number of hours the output should be cached for
