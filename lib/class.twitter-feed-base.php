@@ -6,7 +6,7 @@
 * This class is used to handle processes that
 * occur outside of the feed rendering process
 *
-* @version 1.2.0
+* @version 1.2.1
 */
 if ( ! class_exists( 'DB_Twitter_Feed_Base' ) ) {
 
@@ -78,10 +78,12 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 		$this->set_main_admin_vars();
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_default_styling' ) );
+		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		add_shortcode( 'db_twitter_feed', array( $this, 'register_twitter_feed_sc' ) );
 
-		if ( $this->get_db_plugin_option( $this->options_name_main, 'default_styling' ) === 'yes' )
+		if ( $this->get_db_plugin_option( $this->options_name_main, 'default_styling' ) === 'yes' ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'load_default_styling' ) );
+		}
 	}
 
 
@@ -96,6 +98,23 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 		$this->options_group_main = $this->plugin_name;
 		$this->options_name_main  = $this->plugin_name.'_options';
 		$this->page_uri_main      = 'db-twitter-feed-settings';
+		$this->text_domain        = str_replace( '_', '-', $this->plugin_name );
+	}
+
+
+	/**
+	 * Load the plugin's I18n text domain
+	 *
+	 * @access public
+	 * @return void
+	 * @since  1.2.1
+	 */
+	public function load_textdomain() {
+		load_plugin_textdomain(
+			'devbuddy-twitter-feed',
+			FALSE,
+			DBTF_PATH . '/languages'
+		);
 	}
 
 
@@ -107,7 +126,7 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 	* @since 1.0.0
 	*/
 	public function register_default_styling() {
-		wp_register_style( $this->plugin_name.'-default', DBTF_URL . '/assets/feed.css', NULL, '2.2', 'all' );
+		wp_register_style( $this->plugin_name . '-default', DBTF_URL . '/assets/feed.css', NULL, '2.2', 'all' );
 	}
 
 
@@ -119,7 +138,7 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 	* @since 1.0.0
 	*/
 	public function load_default_styling() {
-		wp_enqueue_style( $this->plugin_name.'-default' );
+		wp_enqueue_style( $this->plugin_name . '-default' );
 	}
 
 
@@ -252,7 +271,12 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 			}
 
 			// Set notification for next page
-			add_settings_error( 'cache_hours', 'cache_hours', ucfirst(str_replace('_', ' ', $bcc_feedback)), $tone );
+			add_settings_error(
+				'cache_hours',
+				'cache_hours',
+				__(ucfirst(str_replace('_', ' ', $bcc_feedback)), 'devbuddy-twitter-feed'),
+				$tone
+			);
 
 			// Return the original options as they're not be changed
 			$input = get_option( $this->options_name_main );
@@ -289,7 +313,15 @@ class DB_Twitter_Feed_Base extends DevBuddy_Feed_Plugin {
 
 				if ( $set_error ) {
 					// Let the user know what's up
-					add_settings_error( '', 'quotes_in_field_' . $option_name, 'Quotes are not allowed in the <u>' . ucwords(str_replace('_', ' ', $option_name)) . '</u> field. Your change for that field was not applied' );
+					$error_option = ucwords(str_replace('_', ' ', $option_name));
+					add_settings_error(
+						'',
+						'quotes_in_field_' . $option_name,
+						sprintf(
+							__( 'Quotes are not allowed in the %s field. Your change for that field was not applied', 'devbuddy-twitter-feed'),
+							'<em>' . $error_option . '</em>'
+						)
+						);
 				}
 
 				// Cleared as used else where in this section of code

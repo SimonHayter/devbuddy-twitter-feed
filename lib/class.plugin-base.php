@@ -253,12 +253,12 @@ class DevBuddy_Feed_Plugin {
 
 		$mins          = $diff / 60 % 60;
 		$the_mins_ago  = $mins;
-		$the_mins_ago .= ( $mins == '1' ) ? ' minute ago' : ' minutes ago';
+		$the_mins_ago .= ( $mins == '1' ) ? __( ' minute ago', 'devbuddy-twitter-feed' ) : __( ' minutes ago', 'devbuddy-twitter-feed' );
 
 		$hours          = $diff / 3600 % 24;
 		$the_hours_ago  = 'About ';
 		$the_hours_ago .= $hours;
-		$the_hours_ago .= ( $hours == '1' ) ? ' hour ago' : ' hours ago';
+		$the_hours_ago .= ( $hours == '1' ) ? __( ' hour ago', 'devbuddy-twitter-feed' ) : __( ' hours ago', 'devbuddy-twitter-feed' );
 
 		$the_time = date( 'H:i', $then );
 		$the_day  = date( 'D', $then );
