@@ -5,7 +5,7 @@
 	var optionsName  = DBTF.optionsNameMain;
 	var optionsGroup = DBTF.optionsGroup;
 
-	var settingsForm = $( '#db_twitter_feed_settings' );
+	var $settingsForm = $( '#db_twitter_feed_settings' );
 
 	// Disable all but the selected feed type
 	$( '.input_feed_type' ).attr( { disabled:'disabled' } );
@@ -73,7 +73,7 @@
 
 	/* Ensure that when pressing "Enter" on a field not in the cache
 	   section the correct submission type goes down */
-	settingsForm.on( 'keypress', function( e ) {
+	$settingsForm.on( 'keypress', function( e ) {
 		if ( e.keyCode === 13 && $( e.target ).attr( 'id' ) !== sn + '_cache_segment' ) {
 			e.preventDefault();
 			$( '#submit' ).trigger( 'click' );
