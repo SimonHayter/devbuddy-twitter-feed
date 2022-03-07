@@ -44,7 +44,7 @@ function my_twitter_feed_template_tag( $feed_config = NULL ) {
 			}
 
 			$the_feed->output .= '</ul>';
-			$the_feed->output .= '<p>More information on errors <a href="https://dev.twitter.com/docs/error-codes-responses" target="_blank" title="Twitter API Error Codes and Responses">here</a>.</p>';
+			$the_feed->output .= '<p>More information on errors <a href="https://dev.twitter.com/docs/error-codes-responses" target="_blank" rel="noopener" title="Twitter API Error Codes and Responses">here</a>.</p>';
 			*/
 
 
