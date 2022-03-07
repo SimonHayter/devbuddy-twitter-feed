@@ -301,7 +301,7 @@ class DevBuddy_Feed_Plugin {
 	* @param string $text The text to parse for plain text links
 	*/
 	public function hyperlinkify_text( $text ) {
-		$new_text = preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1" target="_blank">$1</a>', $text);
+		$new_text = preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1" target="_blank" rel="noopener">$1</a>', $text);
 		return $new_text;
 	}
 
