@@ -726,7 +726,7 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 			$this->output .= sprintf(
 				__( 'More information on errors that have codes %shere%s.', 'devbuddy-twitter-feed' ),
 				sprintf(
-					'<a href="https://dev.twitter.com/docs/error-codes-responses" target="_blank" title="%s">',
+					'<a href="https://dev.twitter.com/docs/error-codes-responses" target="_blank" rel="noopener" title="%s">',
 					esc_attr__( 'Twitter API Error Codes and Responses', 'devbuddy-twitter-feed' )
 				),
 				'</a>'
@@ -747,7 +747,7 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 						__( 'Your search for %s doesn&rsquo;t have any recent results. %sPerform a full search on Twitter%s to see all results.', 'devbuddy-twitter-feed' ),
 						'<strong>' . $this->options['search_term'] . '</strong>',
 						sprintf(
-							' <a href="%s" title="%s" target="_blank">',
+							' <a href="%s" title="%s" target="_blank" rel="noopener">',
 							$this->search . urlencode($this->options['search_term']),
 							sprintf(
 								esc_attr__( 'Search Twitter for %s', 'devbuddy-twitter-feed' ),
@@ -871,7 +871,7 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 				);
 				$tweet = str_replace(
 					'#' . $hashtag,
-					'<a href="' . $this->search . urlencode( '#' . $hashtag ) . '" target="_blank" title="' . $title_attr . '">#' . $hashtag . '</a>',
+					'<a href="' . $this->search . urlencode( '#' . $hashtag ) . '" target="_blank" rel="noopener" title="' . $title_attr . '">#' . $hashtag . '</a>',
 					$tweet
 				);
 			}
@@ -904,7 +904,7 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 				for ( $i = 0; $i < $count; $i++ ) {
 					$tweet = preg_replace(
 						'|@' . $mentions[ $i ]['screen_name'] . '|',
-						'<a href="' . $this->tw . $mentions[ $i ]['screen_name'] . '" target="_blank" title="' . $mentions[ $i ]['name'] . '">@'.$mentions[ $i ]['screen_name'] . '</a>',
+						'<a href="' . $this->tw . $mentions[ $i ]['screen_name'] . '" target="_blank" rel="noopener" title="' . $mentions[ $i ]['name'] . '">@'.$mentions[ $i ]['screen_name'] . '</a>',
 						$tweet
 					);
 				}
@@ -938,7 +938,7 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 				for ( $i = 0; $i < $count; $i++ ) {
 					$tweet = str_replace(
 						$urls[ $i ]['short_url'],
-						'<a href="' . $urls[ $i ]['short_url'] . '" target="_blank">' . $urls[ $i ]['display_url'] . '</a>',
+						'<a href="' . $urls[ $i ]['short_url'] . '" target="_blank" rel="noopener">' . $urls[ $i ]['display_url'] . '</a>',
 						$tweet
 					);
 				}
@@ -972,7 +972,7 @@ class DB_Twitter_Feed extends DB_Twitter_Feed_Base {
 				for ( $i = 0; $i < $count; $i++ ) {
 					$tweet = str_replace(
 						$media[ $i ]['short_url'],
-						'<a href="' . $media[ $i ]['short_url'] . '" target="_blank">' . $media[ $i ]['display_url'] . '</a>',
+						'<a href="' . $media[ $i ]['short_url'] . '" target="_blank" rel="noopener">' . $media[ $i ]['display_url'] . '</a>',
 						$tweet
 					);
 				}
