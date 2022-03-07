@@ -521,7 +521,7 @@ if ( ! class_exists( 'DB_Twitter_Feed_Main_Options' ) ) {
 		 * @since 1.0.0
 		 */
 		public function write_configuration_sec() {
-			_e( 'You\'ll need to log into the Twitter Developers site and set up an app. Once you\'ve set one up you will get the data necessary for below. For a step by step, see the <a href="http://wordpress.org/plugins/devbuddy-twitter-feed/installation/" target="_blank">walkthrough</a>.', 'devbuddy-twitter-feed' );
+			_e( 'You\'ll need to log into the Twitter Developers site and set up an app. Once you\'ve set one up you will get the data necessary for below. For a step by step, see the <a href="http://wordpress.org/plugins/devbuddy-twitter-feed/installation/" target="_blank" rel="noopener">walkthrough</a>.', 'devbuddy-twitter-feed' );
 		}
 
 
